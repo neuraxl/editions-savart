@@ -1,0 +1,901 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark" />
+    <link rel="icon" href="data:," />
+    <title>Éditions Sav'art — Livres numériques</title>
+    <style>
+      :root {
+        --ink: #171310;
+        --ink-2: #1f1a15;
+        --ink-3: #262019;
+        --gold: #c9973f;
+        --gold-light: #e8c37a;
+        --cream: #f5efe4;
+        --cream-dim: rgba(245, 239, 228, 0.72);
+        --cream-faint: rgba(245, 239, 228, 0.5);
+        --gold-line: rgba(201, 151, 63, 0.45);
+        --gold-line-soft: rgba(201, 151, 63, 0.22);
+        --header-h: 64px;
+      }
+      * { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body {
+        margin: 0;
+        background: var(--ink);
+        color: var(--cream);
+        font-family: Georgia, "Times New Roman", Times, serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+      ::selection { background: var(--gold); color: var(--ink); }
+
+      /* ---------- Header ---------- */
+      header {
+        position: fixed;
+        inset: 0 0 auto 0;
+        height: var(--header-h);
+        z-index: 50;
+        background: rgba(23, 19, 16, 0.94);
+        backdrop-filter: blur(6px);
+        border-bottom: 1px solid var(--gold-line-soft);
+      }
+      .header-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        height: 100%;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        gap: 24px;
+      }
+      .brand {
+        font-size: 1.15rem;
+        letter-spacing: 0.02em;
+        color: var(--gold-light);
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .brand span { color: var(--cream); }
+      nav.main-nav {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+      }
+      nav.main-nav a {
+        color: var(--cream-dim);
+        text-decoration: none;
+        font-size: 0.95rem;
+        padding: 10px 12px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        border-radius: 6px;
+      }
+      nav.main-nav a:hover { color: var(--gold-light); }
+      .lang-toggle {
+        display: inline-flex;
+        border: 1px solid var(--gold-line);
+        border-radius: 999px;
+        overflow: hidden;
+        margin-left: 12px;
+        flex: none;
+      }
+      .lang-toggle button {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--cream-dim);
+        font-family: inherit;
+        font-size: 0.85rem;
+        letter-spacing: 0.08em;
+        padding: 0 14px;
+        min-height: 38px;
+        min-width: 48px;
+        cursor: pointer;
+      }
+      .lang-toggle button[aria-pressed="true"] {
+        background: var(--gold);
+        color: var(--ink);
+        font-weight: bold;
+      }
+
+      main { padding-top: var(--header-h); }
+      section { scroll-margin-top: calc(var(--header-h) + 16px); }
+      .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
+
+      /* ---------- Hero ---------- */
+      .hero {
+        text-align: center;
+        padding: 84px 20px 72px;
+        border-bottom: 1px solid var(--gold-line-soft);
+        background:
+          radial-gradient(ellipse 70% 55% at 50% 0%, rgba(201, 151, 63, 0.10), transparent 70%),
+          var(--ink);
+      }
+      .hero .rule {
+        width: 72px; height: 1px;
+        background: var(--gold);
+        margin: 0 auto 28px;
+        position: relative;
+      }
+      .hero .rule::after {
+        content: "◆";
+        position: absolute;
+        left: 50%; top: 50%;
+        transform: translate(-50%, -50%);
+        color: var(--gold);
+        font-size: 0.55rem;
+        background: var(--ink);
+        padding: 0 8px;
+      }
+      .hero h1 {
+        margin: 0 0 10px;
+        font-size: clamp(2.4rem, 6.5vw, 4.2rem);
+        font-weight: normal;
+        letter-spacing: 0.01em;
+        color: var(--cream);
+        line-height: 1.15;
+      }
+      .hero h1 em { font-style: normal; color: var(--gold-light); }
+      .hero .motto {
+        font-size: clamp(1.15rem, 2.6vw, 1.5rem);
+        font-style: italic;
+        color: var(--gold-light);
+        margin: 14px auto 22px;
+        max-width: 640px;
+      }
+      .hero .promise {
+        max-width: 620px;
+        margin: 0 auto 18px;
+        color: var(--cream-dim);
+        font-size: 1.05rem;
+      }
+      .hero .positioning {
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        color: var(--gold);
+        margin: 26px 0 36px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        justify-content: center;
+        flex-wrap: wrap;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 12px 30px;
+        border-radius: 999px;
+        font-family: inherit;
+        font-size: 1rem;
+        text-decoration: none;
+        cursor: pointer;
+        border: 1px solid var(--gold);
+        transition: background 0.2s ease, color 0.2s ease;
+      }
+      .btn-gold { background: var(--gold); color: var(--ink); font-weight: bold; }
+      .btn-gold:hover { background: var(--gold-light); border-color: var(--gold-light); }
+      .btn-outline { background: transparent; color: var(--gold-light); }
+      .btn-outline:hover { background: rgba(201, 151, 63, 0.12); }
+
+      /* ---------- Sections ---------- */
+      .section { padding: 76px 0; }
+      .section-head { text-align: center; margin-bottom: 44px; }
+      .section-head h2 {
+        font-size: clamp(1.7rem, 4vw, 2.3rem);
+        font-weight: normal;
+        margin: 0 0 12px;
+        color: var(--cream);
+      }
+      .section-head .rule {
+        width: 56px; height: 1px; background: var(--gold); margin: 0 auto;
+      }
+      .section-head p {
+        color: var(--cream-dim);
+        max-width: 560px;
+        margin: 16px auto 0;
+      }
+
+      /* ---------- Catalogue ---------- */
+      .catalogue { background: var(--ink-2); border-block: 1px solid var(--gold-line-soft); }
+      .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; }
+      .card {
+        border: 1px solid var(--gold-line);
+        background: var(--ink);
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 0;
+      }
+      .card.featured {
+        grid-column: 1 / -1;
+        flex-direction: row;
+        gap: 36px;
+        padding: 36px;
+        border-color: var(--gold);
+        box-shadow: 0 0 0 1px var(--gold-line-soft), 0 18px 44px rgba(0, 0, 0, 0.35);
+      }
+      .cover {
+        border: 1px solid var(--gold-line);
+        background:
+          linear-gradient(160deg, var(--ink-3), var(--ink) 60%);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 34px 22px;
+        min-height: 240px;
+      }
+      .card.featured .cover { flex: 0 0 300px; min-height: 320px; }
+      .cover .cover-code {
+        font-size: 0.72rem;
+        letter-spacing: 0.3em;
+        color: var(--gold);
+        margin-bottom: 18px;
+      }
+      .cover .cover-title {
+        font-size: 1.55rem;
+        line-height: 1.25;
+        color: var(--gold-light);
+        letter-spacing: 0.04em;
+        margin: 0 0 14px;
+      }
+      .card.featured .cover .cover-title { font-size: 2rem; }
+      .cover .cover-rule { width: 40px; height: 1px; background: var(--gold); margin: 0 auto 14px; }
+      .cover .cover-author { font-size: 0.85rem; color: var(--cream-dim); font-style: italic; }
+      .cover .cover-house { font-size: 0.7rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--cream-faint); margin-top: 16px; }
+      .card-body { display: flex; flex-direction: column; flex: 1; }
+      .card .cover { margin-bottom: 24px; }
+      .card.featured .cover { margin-bottom: 0; }
+      .card-top {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      .code {
+        font-size: 0.78rem;
+        letter-spacing: 0.26em;
+        color: var(--gold);
+      }
+      .badge {
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        border: 1px solid var(--gold-line);
+        color: var(--gold-light);
+        border-radius: 999px;
+        padding: 4px 12px;
+        white-space: nowrap;
+      }
+      .badge-first { background: var(--gold); border-color: var(--gold); color: var(--ink); font-weight: bold; }
+      .card h3 {
+        margin: 0 0 10px;
+        font-size: 1.5rem;
+        font-weight: normal;
+        letter-spacing: 0.03em;
+        color: var(--cream);
+      }
+      .card.featured h3 { font-size: 1.9rem; }
+      .card .pitch { color: var(--cream-dim); margin: 0 0 20px; }
+      .card.featured .pitch { font-size: 1.08rem; }
+      .price {
+        font-size: 1.35rem;
+        color: var(--gold-light);
+        margin: 0 0 6px;
+      }
+      .editions {
+        font-size: 0.88rem;
+        color: var(--cream-faint);
+        font-style: italic;
+        margin: 0 0 22px;
+      }
+      .card .notify-link {
+        margin-top: auto;
+        align-self: flex-start;
+        color: var(--gold-light);
+        text-decoration: none;
+        border-bottom: 1px solid var(--gold-line);
+        padding: 8px 2px;
+        min-height: 40px;
+        display: inline-flex;
+        align-items: center;
+        font-size: 0.98rem;
+      }
+      .card .notify-link:hover { color: var(--cream); border-bottom-color: var(--gold); }
+
+      /* ---------- Extrait ---------- */
+      .excerpt-note {
+        display: none;
+        max-width: 760px;
+        margin: 0 auto 20px;
+        text-align: center;
+        font-style: italic;
+        color: var(--gold-light);
+        border: 1px solid var(--gold-line-soft);
+        padding: 12px 18px;
+        font-size: 0.95rem;
+      }
+      html[lang="en"] .excerpt-note { display: block; }
+      .book-page {
+        background: var(--cream);
+        color: var(--ink);
+        max-width: 760px;
+        margin: 0 auto;
+        padding: clamp(36px, 6vw, 72px) clamp(24px, 6vw, 68px);
+        box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+      }
+      .book-title-block { text-align: center; margin-bottom: 48px; }
+      .book-title-block .bt-code {
+        font-size: 0.72rem; letter-spacing: 0.3em; color: #8a6a25; margin-bottom: 20px;
+      }
+      .book-title-block h3 {
+        font-size: clamp(1.9rem, 5vw, 2.6rem);
+        margin: 0 0 10px;
+        font-weight: normal;
+        letter-spacing: 0.05em;
+        color: var(--ink);
+      }
+      .book-title-block .bt-sub { font-size: 1.2rem; font-style: italic; margin: 0 0 8px; }
+      .book-title-block .bt-tag { font-size: 1rem; color: rgba(23, 19, 16, 0.78); margin: 0 auto 26px; max-width: 480px; }
+      .book-title-block .bt-rule { width: 56px; height: 1px; background: var(--gold); margin: 0 auto 26px; }
+      .book-title-block .bt-author { font-size: 1.02rem; margin: 0 0 6px; }
+      .book-title-block .bt-edition { font-size: 0.85rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(23, 19, 16, 0.6); margin: 0; }
+      .book-page h4 {
+        font-size: 1.25rem;
+        font-weight: normal;
+        text-align: center;
+        letter-spacing: 0.02em;
+        margin: 0 0 34px;
+        line-height: 1.5;
+      }
+      .book-page .body-text p {
+        margin: 0 0 1.05em;
+        font-size: 1.06rem;
+        line-height: 1.75;
+        text-align: left;
+      }
+      .book-page .body-text p:first-of-type::first-letter {
+        font-size: 2.6em;
+        line-height: 1;
+        color: #8a6a25;
+        padding-right: 2px;
+      }
+      .excerpt-end {
+        text-align: center;
+        margin-top: 34px;
+        color: var(--cream-faint);
+        font-style: italic;
+      }
+      .excerpt-cta { text-align: center; margin-top: 22px; }
+
+      /* ---------- Formulaire ---------- */
+      .alert-section { background: var(--ink-2); border-block: 1px solid var(--gold-line-soft); }
+      .form-card {
+        max-width: 620px;
+        margin: 0 auto;
+        border: 1px solid var(--gold-line);
+        background: var(--ink);
+        padding: clamp(26px, 5vw, 44px);
+      }
+      .field { margin-bottom: 22px; }
+      .field label, .field legend {
+        display: block;
+        font-size: 0.95rem;
+        color: var(--gold-light);
+        margin-bottom: 8px;
+        letter-spacing: 0.02em;
+      }
+      fieldset.field { border: 0; padding: 0; margin: 0 0 22px; }
+      .field input[type="text"], .field input[type="email"] {
+        width: 100%;
+        background: var(--ink-2);
+        border: 1px solid var(--gold-line-soft);
+        color: var(--cream);
+        font-family: inherit;
+        font-size: 1rem;
+        padding: 12px 14px;
+        min-height: 48px;
+        border-radius: 4px;
+      }
+      .field input:focus { outline: 2px solid var(--gold); outline-offset: 1px; border-color: var(--gold); }
+      .check {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 6px;
+        min-height: 44px;
+        cursor: pointer;
+        color: var(--cream);
+        font-size: 1rem;
+      }
+      .check input[type="checkbox"] {
+        width: 20px; height: 20px;
+        accent-color: var(--gold);
+        flex: none;
+        cursor: pointer;
+      }
+      .check .check-code { color: var(--gold); font-size: 0.78rem; letter-spacing: 0.18em; margin-left: auto; }
+      .form-card .btn { width: 100%; margin-top: 6px; font-size: 1.05rem; }
+      .form-note {
+        margin: 20px 0 0;
+        font-size: 0.88rem;
+        color: var(--cream-faint);
+        text-align: center;
+        font-style: italic;
+      }
+      .confirmation {
+        display: none;
+        border: 1px solid var(--gold);
+        background: rgba(201, 151, 63, 0.1);
+        color: var(--gold-light);
+        text-align: center;
+        padding: 22px 20px;
+        font-size: 1.08rem;
+        margin-top: 4px;
+      }
+      .confirmation.show { display: block; }
+      .form-error {
+        display: none;
+        color: var(--gold-light);
+        font-size: 0.92rem;
+        margin: 0 0 16px;
+        font-style: italic;
+      }
+      .form-error.show { display: block; }
+
+      /* ---------- Auteur ---------- */
+      .author { text-align: center; }
+      .author .author-name {
+        font-size: clamp(1.8rem, 4.5vw, 2.5rem);
+        margin: 0 0 8px;
+        font-weight: normal;
+        color: var(--cream);
+      }
+      .author .author-line {
+        font-style: italic;
+        color: var(--gold-light);
+        font-size: 1.15rem;
+        margin: 0 0 6px;
+      }
+      .author .author-sig {
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-size: 0.78rem;
+        color: var(--gold);
+        margin: 0 0 26px;
+      }
+      .author .author-text {
+        max-width: 600px;
+        margin: 0 auto;
+        color: var(--cream-dim);
+        font-size: 1.05rem;
+      }
+      .author .rule { width: 56px; height: 1px; background: var(--gold); margin: 0 auto 30px; }
+
+      /* ---------- Footer ---------- */
+      footer {
+        border-top: 1px solid var(--gold-line-soft);
+        padding: 40px 20px 48px;
+        text-align: center;
+      }
+      footer .foot-credit { color: var(--cream-dim); margin: 0 0 10px; font-size: 0.98rem; }
+      footer .foot-motto { color: var(--gold-light); font-style: italic; margin: 0; }
+
+      /* ---------- Responsive ---------- */
+      @media (max-width: 820px) {
+        .card.featured { flex-direction: column; gap: 0; }
+        .card.featured .cover { flex: none; margin-bottom: 24px; }
+        .cards { grid-template-columns: 1fr; }
+      }
+      @media (max-width: 680px) {
+        :root { --header-h: 106px; }
+        .header-inner {
+          flex-wrap: wrap;
+          align-content: center;
+          row-gap: 2px;
+          padding: 8px 14px;
+          gap: 8px;
+        }
+        .brand { order: 1; font-size: 1.05rem; }
+        .lang-toggle { order: 2; margin-left: auto; }
+        .lang-toggle button { min-width: 44px; padding: 0 11px; min-height: 36px; }
+        nav.main-nav {
+          order: 3;
+          flex: 1 1 100%;
+          margin-left: 0;
+          justify-content: space-between;
+        }
+        nav.main-nav a { padding: 8px 4px; font-size: 0.88rem; min-height: 38px; }
+      }
+      @media (max-width: 560px) {
+        .hero { padding: 60px 16px 56px; }
+        .section { padding: 56px 0; }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        html { scroll-behavior: auto; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <a class="brand" href="#top">Éditions <span>Sav'art</span></a>
+        <nav class="main-nav" aria-label="Navigation">
+          <a href="#catalogue" data-i18n="nav_catalogue">Catalogue</a>
+          <a href="#extrait" data-i18n="nav_extrait">Extrait</a>
+          <a href="#auteur" class="nav-author" data-i18n="nav_auteur">Auteur</a>
+          <a href="#alerte" data-i18n="nav_alerte">Alerte de lancement</a>
+        </nav>
+        <div class="lang-toggle" role="group" aria-label="Langue / Language">
+          <button type="button" id="btn-fr" aria-pressed="true">FR</button>
+          <button type="button" id="btn-en" aria-pressed="false">EN</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="top">
+      <!-- Héros -->
+      <section class="hero">
+        <div class="rule" aria-hidden="true"></div>
+        <h1 data-i18n-html="hero_title">Éditions <em>Sav'art</em></h1>
+        <p class="motto" data-i18n="hero_motto">« Une maison d'édition, pas une usine à PDF. »</p>
+        <p class="promise" data-i18n="hero_promise">Des livres pratiques, écrits par un humain, publiés pour le Canada, les États-Unis, la France et le marché anglophone international.</p>
+        <p class="positioning" data-i18n="hero_positioning">Connaissances pratiques • Technologie • Possibilités</p>
+        <div class="hero-actions">
+          <a class="btn btn-gold" href="#catalogue" data-i18n="hero_btn_catalogue">Voir le catalogue</a>
+          <a class="btn btn-outline" href="#alerte" data-i18n="hero_btn_alert">Me prévenir au lancement</a>
+        </div>
+      </section>
+
+      <!-- Catalogue -->
+      <section class="section catalogue" id="catalogue">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 data-i18n="cat_title">Le catalogue</h2>
+            <div class="rule" aria-hidden="true"></div>
+            <p data-i18n="cat_intro">Trois titres, chacun en édition française et en English edition — des adaptations, pas des traductions mécaniques.</p>
+          </div>
+
+          <div class="cards">
+            <!-- NX-001 -->
+            <article class="card featured">
+              <div class="cover" aria-hidden="true">
+                <div class="cover-code">NX-001</div>
+                <p class="cover-title">AI POWER<br />2026</p>
+                <div class="cover-rule"></div>
+                <p class="cover-author">Roger Savard</p>
+                <p class="cover-house">Sav'art</p>
+              </div>
+              <div class="card-body">
+                <div class="card-top">
+                  <span class="code">NX-001</span>
+                  <span class="badge badge-first" data-i18n="badge_first">Premier titre</span>
+                  <span class="badge" data-i18n="status_validation">En validation</span>
+                </div>
+                <h3>AI POWER 2026</h3>
+                <p class="pitch" data-i18n="nx001_pitch">L'intelligence artificielle à votre service — le guide pratique pour travailler plus intelligemment, créer davantage et automatiser votre quotidien.</p>
+                <p class="price" data-i18n="nx001_price">19,99 $ US</p>
+                <p class="editions" data-i18n="editions_note">Édition française + English edition — des adaptations, pas des traductions mécaniques.</p>
+                <a class="notify-link" href="#alerte" data-i18n="notify_link">Me prévenir au lancement →</a>
+              </div>
+            </article>
+
+            <!-- NX-002 -->
+            <article class="card">
+              <div class="cover" aria-hidden="true">
+                <div class="cover-code">NX-002</div>
+                <p class="cover-title">DIGITAL<br />PROTECTION</p>
+                <div class="cover-rule"></div>
+                <p class="cover-author">Roger Savard</p>
+                <p class="cover-house">Sav'art</p>
+              </div>
+              <div class="card-body">
+                <div class="card-top">
+                  <span class="code">NX-002</span>
+                  <span class="badge" data-i18n="status_preparation">En préparation</span>
+                </div>
+                <h3>DIGITAL PROTECTION</h3>
+                <p class="pitch" data-i18n="nx002_pitch">Protéger sa vie numérique : ses données, ses comptes et ses appareils.</p>
+                <p class="price" data-i18n="nx002_price">16,99 $ US</p>
+                <p class="editions" data-i18n="editions_note">Édition française + English edition — des adaptations, pas des traductions mécaniques.</p>
+                <a class="notify-link" href="#alerte" data-i18n="notify_link">Me prévenir au lancement →</a>
+              </div>
+            </article>
+
+            <!-- NX-003 -->
+            <article class="card">
+              <div class="cover" aria-hidden="true">
+                <div class="cover-code">NX-003</div>
+                <p class="cover-title">SMART<br />MONEY</p>
+                <div class="cover-rule"></div>
+                <p class="cover-author">Roger Savard</p>
+                <p class="cover-house">Sav'art</p>
+              </div>
+              <div class="card-body">
+                <div class="card-top">
+                  <span class="code">NX-003</span>
+                  <span class="badge" data-i18n="status_preparation">En préparation</span>
+                </div>
+                <h3>SMART MONEY</h3>
+                <p class="pitch" data-i18n="nx003_pitch">Comprendre l'argent d'aujourd'hui, en toute clarté — un livre éducatif seulement, sans conseil personnalisé.</p>
+                <p class="price" data-i18n="nx003_price">16,99 $ US</p>
+                <p class="editions" data-i18n="editions_note">Édition française + English edition — des adaptations, pas des traductions mécaniques.</p>
+                <a class="notify-link" href="#alerte" data-i18n="notify_link">Me prévenir au lancement →</a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- Extrait -->
+      <section class="section" id="extrait">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 data-i18n="excerpt_title">Extrait de lecture</h2>
+            <div class="rule" aria-hidden="true"></div>
+            <p data-i18n="excerpt_intro">AI POWER 2026 — l'introduction du manuscrit, telle qu'elle paraîtra dans l'édition française.</p>
+          </div>
+
+          <p class="excerpt-note">Excerpt from the French edition — the English edition is in preparation.</p>
+
+          <div class="book-page" lang="fr">
+            <div class="book-title-block">
+              <p class="bt-code">NX-001</p>
+              <h3>AI POWER 2026</h3>
+              <p class="bt-sub">L'intelligence artificielle à votre service</p>
+              <p class="bt-tag">Le guide pratique pour travailler plus intelligemment, créer davantage et automatiser votre quotidien.</p>
+              <div class="bt-rule" aria-hidden="true"></div>
+              <p class="bt-author">Roger Savard — auteur, compositeur, producteur</p>
+              <p class="bt-edition">Sav'art — Édition française — 2026</p>
+            </div>
+
+            <h4>INTRODUCTION — Une nouvelle manière de penser, de travailler et de créer</h4>
+
+            <div class="body-text">
+              <p>Nous vivons une transformation technologique majeure.</p>
+              <p>L'intelligence artificielle n'est plus une technologie réservée aux laboratoires de recherche, aux grandes entreprises ou aux spécialistes de l'informatique.</p>
+              <p>Elle est désormais accessible à tous.</p>
+              <p>En quelques secondes, elle peut aider à rédiger un texte, organiser un projet, analyser des informations, traduire un document, préparer une présentation, créer une image ou assister un entrepreneur dans ses activités quotidiennes.</p>
+              <p>Mais une question demeure :</p>
+              <p>Comment transformer cette technologie en véritable avantage dans sa vie personnelle et professionnelle ?</p>
+              <p>C'est précisément l'objectif de ce livre.</p>
+              <p>Il ne s'agit pas de vous transformer en programmeur, en ingénieur ou en spécialiste de l'intelligence artificielle.</p>
+              <p>Il s'agit de vous apprendre à utiliser intelligemment les outils disponibles.</p>
+              <p>Vous découvrirez comment communiquer avec une IA, formuler de meilleures demandes, gagner du temps, organiser vos idées, développer votre créativité et automatiser certaines tâches.</p>
+              <p>Vous apprendrez également à reconnaître les limites de ces technologies.</p>
+              <p>Car l'intelligence artificielle peut produire des erreurs, inventer des informations et reproduire certains biais. Elle doit donc être utilisée avec discernement.</p>
+              <p>L'objectif n'est pas de remplacer votre intelligence.</p>
+              <p>L'objectif est de lui donner de nouveaux moyens d'action.</p>
+              <p>Bienvenue dans une nouvelle façon de travailler, d'apprendre et de créer.</p>
+            </div>
+          </div>
+
+          <p class="excerpt-end" data-i18n="excerpt_end">Fin de l'extrait — introduction du manuscrit français, en validation.</p>
+          <div class="excerpt-cta">
+            <a class="btn btn-gold" href="#alerte" data-i18n="hero_btn_alert">Me prévenir au lancement</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Alerte de lancement -->
+      <section class="section alert-section" id="alerte">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 data-i18n="form_title">Me prévenir au lancement</h2>
+            <div class="rule" aria-hidden="true"></div>
+            <p data-i18n="form_intro">Laissez votre courriel : vous serez prévenu dès l'ouverture des ventes du ou des titres qui vous intéressent.</p>
+          </div>
+
+          <div class="form-card">
+            <form id="alert-form" novalidate>
+              <div class="field">
+                <label for="f-name" data-i18n="form_name">Prénom et nom</label>
+                <input type="text" id="f-name" name="name" autocomplete="name" required />
+              </div>
+              <div class="field">
+                <label for="f-email" data-i18n="form_email">Courriel</label>
+                <input type="email" id="f-email" name="email" autocomplete="email" required />
+              </div>
+              <fieldset class="field">
+                <legend data-i18n="form_books">Le ou les livres qui vous intéressent</legend>
+                <label class="check">
+                  <input type="checkbox" name="books" value="AI POWER 2026" checked />
+                  AI POWER 2026
+                  <span class="check-code">NX-001</span>
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="books" value="DIGITAL PROTECTION" />
+                  DIGITAL PROTECTION
+                  <span class="check-code">NX-002</span>
+                </label>
+                <label class="check">
+                  <input type="checkbox" name="books" value="SMART MONEY" />
+                  SMART MONEY
+                  <span class="check-code">NX-003</span>
+                </label>
+              </fieldset>
+              <p class="form-error" id="form-error" role="alert"></p>
+              <button type="submit" class="btn btn-gold" data-i18n="form_submit">Me prévenir</button>
+              <p class="form-note" data-i18n="form_note">Les ventes ouvriront au lancement via Payhip et Stripe. Aucun livre n'est en vente pour le moment.</p>
+            </form>
+            <div class="confirmation" id="confirmation" role="status" data-i18n="form_success">Merci ! Vous serez prévenu dès l'ouverture des ventes.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Auteur -->
+      <section class="section author" id="auteur">
+        <div class="wrap">
+          <div class="section-head">
+            <h2 data-i18n="author_title">L'auteur</h2>
+            <div class="rule" aria-hidden="true"></div>
+          </div>
+          <p class="author-name">Roger Savard</p>
+          <p class="author-line" data-i18n="author_line">« Québécois de père en fils depuis 1663 »</p>
+          <p class="author-sig" data-i18n="author_sig">Auteur, compositeur, producteur</p>
+          <div class="rule" aria-hidden="true"></div>
+          <p class="author-text" data-i18n="author_text">Un créateur québécois qui écrit ses livres lui-même, à la main d'abord, et les publie sous sa propre marque, Sav'art.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p class="foot-credit">© 2026 Éditions Sav'art / Sav'art Publishing — Roger Savard, auteur, compositeur, producteur. Québec, Canada.</p>
+      <p class="foot-motto" data-i18n="hero_motto">« Une maison d'édition, pas une usine à PDF. »</p>
+    </footer>
+
+    <script>
+      var I18N = {
+        fr: {
+          brand: "Éditions <span>Sav'art</span>",
+          nav_catalogue: "Catalogue",
+          nav_extrait: "Extrait",
+          nav_auteur: "Auteur",
+          nav_alerte: "Alerte de lancement",
+          hero_title: "Éditions <em>Sav'art</em>",
+          hero_motto: "« Une maison d'édition, pas une usine à PDF. »",
+          hero_promise: "Des livres pratiques, écrits par un humain, publiés pour le Canada, les États-Unis, la France et le marché anglophone international.",
+          hero_positioning: "Connaissances pratiques • Technologie • Possibilités",
+          hero_btn_catalogue: "Voir le catalogue",
+          hero_btn_alert: "Me prévenir au lancement",
+          cat_title: "Le catalogue",
+          cat_intro: "Trois titres, chacun en édition française et en English edition — des adaptations, pas des traductions mécaniques.",
+          badge_first: "Premier titre",
+          status_validation: "En validation",
+          status_preparation: "En préparation",
+          nx001_pitch: "L'intelligence artificielle à votre service — le guide pratique pour travailler plus intelligemment, créer davantage et automatiser votre quotidien.",
+          nx002_pitch: "Protéger sa vie numérique : ses données, ses comptes et ses appareils.",
+          nx003_pitch: "Comprendre l'argent d'aujourd'hui, en toute clarté — un livre éducatif seulement, sans conseil personnalisé.",
+          nx001_price: "19,99 $ US",
+          nx002_price: "16,99 $ US",
+          nx003_price: "16,99 $ US",
+          editions_note: "Édition française + English edition — des adaptations, pas des traductions mécaniques.",
+          notify_link: "Me prévenir au lancement →",
+          excerpt_title: "Extrait de lecture",
+          excerpt_intro: "AI POWER 2026 — l'introduction du manuscrit, telle qu'elle paraîtra dans l'édition française.",
+          excerpt_end: "Fin de l'extrait — introduction du manuscrit français, en validation.",
+          form_title: "Me prévenir au lancement",
+          form_intro: "Laissez votre courriel : vous serez prévenu dès l'ouverture des ventes du ou des titres qui vous intéressent.",
+          form_name: "Prénom et nom",
+          form_email: "Courriel",
+          form_books: "Le ou les livres qui vous intéressent",
+          form_submit: "Me prévenir",
+          form_note: "Les ventes ouvriront au lancement via Payhip et Stripe. Aucun livre n'est en vente pour le moment.",
+          form_success: "Merci ! Vous serez prévenu dès l'ouverture des ventes.",
+          form_error: "Veuillez indiquer votre nom, un courriel valide et au moins un livre.",
+          author_title: "L'auteur",
+          author_line: "« Québécois de père en fils depuis 1663 »",
+          author_sig: "Auteur, compositeur, producteur",
+          author_text: "Un créateur québécois qui écrit ses livres lui-même, à la main d'abord, et les publie sous sa propre marque, Sav'art."
+        },
+        en: {
+          brand: "Sav'art <span>Publishing</span>",
+          nav_catalogue: "Catalogue",
+          nav_extrait: "Excerpt",
+          nav_auteur: "Author",
+          nav_alerte: "Launch alert",
+          hero_title: "Sav'art <em>Publishing</em>",
+          hero_motto: "“A publishing house, not a PDF factory.”",
+          hero_promise: "Practical books, written by a human, published for Canada, the United States, France, and the international English-speaking market.",
+          hero_positioning: "Practical Knowledge • Technology • Possibilities",
+          hero_btn_catalogue: "View the catalogue",
+          hero_btn_alert: "Notify me at launch",
+          cat_title: "The catalogue",
+          cat_intro: "Three titles, each in a French edition and an English edition — adaptations, not mechanical translations.",
+          badge_first: "First title",
+          status_validation: "In validation",
+          status_preparation: "In preparation",
+          nx001_pitch: "Artificial intelligence at your service — the practical guide to working smarter, creating more, and automating your everyday life.",
+          nx002_pitch: "Protecting your digital life: your data, your accounts, and your devices.",
+          nx003_pitch: "Understanding today's money, clearly — an educational book only, with no personalized advice.",
+          nx001_price: "US$19.99",
+          nx002_price: "US$16.99",
+          nx003_price: "US$16.99",
+          editions_note: "French edition + English edition — adaptations, not mechanical translations.",
+          notify_link: "Notify me at launch →",
+          excerpt_title: "Reading excerpt",
+          excerpt_intro: "AI POWER 2026 — the introduction of the manuscript, as it will appear in the French edition.",
+          excerpt_end: "End of the excerpt — introduction of the French manuscript, in validation.",
+          form_title: "Notify me at launch",
+          form_intro: "Leave your email: you will be notified as soon as sales open for the title(s) you select.",
+          form_name: "First and last name",
+          form_email: "Email",
+          form_books: "The book(s) you are interested in",
+          form_submit: "Notify me",
+          form_note: "Sales will open at launch through Payhip and Stripe. No book is on sale yet.",
+          form_success: "Thank you! You will be notified as soon as sales open.",
+          form_error: "Please enter your name, a valid email address, and select at least one book.",
+          author_title: "The author",
+          author_line: "“Québécois de père en fils depuis 1663” — Quebecer, father to son, since 1663",
+          author_sig: "Author, composer, producer",
+          author_text: "A Quebec creator who writes his books himself, by hand first, and publishes them under his own imprint, Sav'art."
+        }
+      };
+
+      var currentLang = "fr";
+
+      function setLang(lang) {
+        currentLang = lang;
+        document.documentElement.lang = lang;
+        document.title = lang === "fr"
+          ? "Éditions Sav'art — Livres numériques"
+          : "Sav'art Publishing — E-books";
+        var dict = I18N[lang];
+        var nodes = document.querySelectorAll("[data-i18n]");
+        for (var i = 0; i < nodes.length; i++) {
+          var key = nodes[i].getAttribute("data-i18n");
+          if (dict[key] !== undefined) nodes[i].textContent = dict[key];
+        }
+        var htmlNodes = document.querySelectorAll("[data-i18n-html]");
+        for (var j = 0; j < htmlNodes.length; j++) {
+          var hkey = htmlNodes[j].getAttribute("data-i18n-html");
+          if (dict[hkey] !== undefined) htmlNodes[j].innerHTML = dict[hkey];
+        }
+        // Brand contains a <span>, so it is handled as HTML too.
+        var brandNodes = document.querySelectorAll(".brand");
+        for (var b = 0; b < brandNodes.length; b++) {
+          brandNodes[b].innerHTML = dict.brand;
+        }
+        document.getElementById("btn-fr").setAttribute("aria-pressed", lang === "fr" ? "true" : "false");
+        document.getElementById("btn-en").setAttribute("aria-pressed", lang === "en" ? "true" : "false");
+        var err = document.getElementById("form-error");
+        if (err.classList.contains("show")) err.textContent = dict.form_error;
+      }
+
+      document.getElementById("btn-fr").addEventListener("click", function () { setLang("fr"); });
+      document.getElementById("btn-en").addEventListener("click", function () { setLang("en"); });
+
+      document.getElementById("alert-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        var dict = I18N[currentLang];
+        var name = document.getElementById("f-name").value.trim();
+        var email = document.getElementById("f-email").value.trim();
+        var checked = document.querySelectorAll('input[name="books"]:checked');
+        var err = document.getElementById("form-error");
+        var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        if (!name || !emailOk || checked.length === 0) {
+          err.textContent = dict.form_error;
+          err.classList.add("show");
+          return;
+        }
+        err.classList.remove("show");
+        this.style.display = "none";
+        var conf = document.getElementById("confirmation");
+        conf.textContent = dict.form_success;
+        conf.classList.add("show");
+        conf.scrollIntoView({ block: "center", behavior: "smooth" });
+      });
+    </script>
+  </body>
+</html>
